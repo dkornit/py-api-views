@@ -18,7 +18,7 @@ def genre_list(request):
 
     if request.method == "POST":
         serializer = GenreSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -34,7 +34,7 @@ def genre_detail(request, pk):
 
     if request.method == "PUT":
         serializer = GenreSerializer(genre, data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -70,13 +70,13 @@ class ActorDetail(
     serializer_class = ActorSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.retreive(request, *args, *kwargs)
+        return self.retrieve(request, *args, *kwargs)
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        return self.partial_udate(request, *args, *kwargs)
+        return self.partial_update(request, *args, *kwargs)
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
@@ -94,6 +94,6 @@ class CinemaHallViewSet(
     serializer_class = CinemaHallSerializer
 
 
-class MovieViewSet(viewsets.ModekViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
